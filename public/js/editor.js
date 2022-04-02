@@ -1,3 +1,6 @@
+import {db} from './firebase.js';
+import {collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-firestore.js";
+
 const blogTitleField = document.querySelector('.title');
 const articleField = document.querySelector('.article');
 
@@ -32,13 +35,12 @@ const uploadImage = (uploadFile, uploadType) => {
                 addImage(data, file.name);
             } else {
                 bannerPath = `${location.origin}/${data}`;
-                banner.style.backgroundImage = `url("${bannerPath})`;
+                banner.style.backgroundImage = `url("${bannerPath}")`;
             }
         })
     } else {
         alert("Carrega apenas imagens");
     }
-    //{
 }
 
 const addImage = (imagepath, alt) => {
@@ -64,7 +66,9 @@ publishBtn.addEventListener('click', () => {
         let date = new Date(); // for published at info
 
         // access firestore with db variable;
-        db.collection("blogs").doc(docName).set({
+
+        const blogsCollection = collection(db, 'blogs')
+        addDoc(blogsCollection, {
             title: blogTitleField.value,
             article: articleField.value,
             bannerImage: bannerPath,
@@ -78,3 +82,15 @@ publishBtn.addEventListener('click', () => {
         })
     }
 })
+
+
+        
+
+        /*
+            db.collection("blogs").doc(docName).set({
+            title: blogTitleField.value,
+            article: articleField.value,
+            bannerImage: bannerPath,
+            publishedAt: `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`
+        })
+        */

@@ -24,7 +24,7 @@ app.post('/upload', (req, res) => {
     // image name
     let imagename = date.getDate() + date.getTime() + file.name;
     // image upload path
-    let path = 'public/uploads' + imagename;
+    let path = 'public/uploads/' + imagename;
 
     // create upload
     file.mv(path, (err, result) => {
